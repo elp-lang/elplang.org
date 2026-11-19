@@ -31,6 +31,20 @@ committed and pushed. That is the tradeoff a submodule makes and it is the
 right one for a design record: the site shows a known revision rather than
 whatever main happened to be at build time.
 
+So the rule, for anyone — human or agent — working on the language: **after
+a change lands in `elp-lang/elp`, run `docs:update` here and push.** It is
+two commands and it is the only thing standing between a decision being
+made and the site showing it.
+
+```sh
+npm run docs:update && git commit -m "Bump the elp pin" && git push
+```
+
+A build will tell you when the two have drifted in the other direction —
+`app/site.ts` and the submodule's file list are checked against each other
+and a mismatch **fails the build** rather than quietly publishing a page
+nobody linked. It caught `control-flow.md` the first time it ran.
+
 **Nor does pushing rebuild anything, yet.** There is no CI in this repo and
 `wrangler.jsonc` carries no build configuration, so publishing is
 `npm run deploy` from a machine that has the toolchain. Making a push

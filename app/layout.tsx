@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import { AUTHOR_URL, DOCS, GOALS, REPO, SITE, SPONSOR } from "./site";
+import { AUTHOR_URL, DOCS_PAGE, GOALS, REPO, SITE, SPONSOR } from "./site";
 import ThemeToggle from "./theme-toggle";
 import "./globals.css";
 
@@ -49,8 +49,9 @@ export const viewport: Viewport = {
 	],
 };
 
+// `internal` links are rendered with `next/link`; the rest leave the site.
 const navLinks = [
-	{ href: DOCS, label: "Design docs" },
+	{ href: DOCS_PAGE, label: "Design docs", internal: true },
 	{ href: GOALS, label: "Goals" },
 	{ href: REPO, label: "GitHub" },
 ];
@@ -74,15 +75,25 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 									<span className="text-[19px] font-extrabold leading-none tracking-[-0.6px]">Elp</span>
 								</Link>
 								<nav aria-label="Main navigation" className="hidden items-center gap-6 md:flex">
-									{navLinks.map((link) => (
-										<a
-											key={link.href}
-											href={link.href}
-											className="type-label whitespace-nowrap text-fg underline decoration-border-strong decoration-[1.5px] underline-offset-[6px] transition-colors hover:decoration-accent"
-										>
-											{link.label}
-										</a>
-									))}
+									{navLinks.map((link) =>
+										link.internal ? (
+											<Link
+												key={link.href}
+												href={link.href}
+												className="type-label whitespace-nowrap text-fg underline decoration-border-strong decoration-[1.5px] underline-offset-[6px] transition-colors hover:decoration-accent"
+											>
+												{link.label}
+											</Link>
+										) : (
+											<a
+												key={link.href}
+												href={link.href}
+												className="type-label whitespace-nowrap text-fg underline decoration-border-strong decoration-[1.5px] underline-offset-[6px] transition-colors hover:decoration-accent"
+											>
+												{link.label}
+											</a>
+										),
+									)}
 								</nav>
 							</div>
 							<div className="flex items-center gap-2 md:gap-4">
@@ -122,9 +133,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 							</div>
 							<div className="flex flex-col gap-3">
 								<h2 className="type-micro-sm text-muted">Language</h2>
-								<a href={DOCS} className={footerLink}>
+								<Link href={DOCS_PAGE} className={footerLink}>
 									Design docs
-								</a>
+								</Link>
 								<a href={GOALS} className={footerLink}>
 									Goals
 								</a>

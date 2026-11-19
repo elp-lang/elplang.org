@@ -3,7 +3,6 @@ import CodeSample from "./code-sample";
 import SectionLabel from "./section-label";
 import {
 	AUTHOR_URL,
-	DOCS,
 	EXAMPLES,
 	GOALS,
 	REPO,
@@ -373,15 +372,18 @@ export default function Home() {
 				<div className="mx-auto grid w-full max-w-[1440px] gap-4 px-4 py-7 md:grid-cols-[220px_minmax(0,1fr)] md:gap-12 md:px-12 md:py-14">
 					<h2 className="type-micro text-muted md:pt-2">The Elp book</h2>
 					<div className="flex max-w-[760px] flex-col gap-4">
-						<p className="type-display-md text-fg">Coming to this site.</p>
+						<p className="type-display-md text-fg">Built from the record.</p>
 						<p className="type-body leading-[1.7] text-muted">
-							As the design settles, the design record will become the Elp book: a
-							guide to the language and its reference, published here at
-							elplang.org. Until then, the docs on{" "}
-							<a href={DOCS} className="inline-link">
-								GitHub
-							</a>{" "}
-							are the only authority on what the language is.
+							The{" "}
+							<Link href="/docs" className="inline-link">
+								design record
+							</Link>{" "}
+							is already published here, rendered from the language repository at a
+							pinned revision. As the design settles it becomes the Elp book: the
+							same material, reordered for someone learning the language rather
+							than someone deciding it. Until then these documents are the only
+							authority on what Elp is, and they are organised by the question
+							each one answers.
 						</p>
 					</div>
 				</div>
