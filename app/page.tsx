@@ -1,3 +1,4 @@
+import Link from "next/link";
 import CodeSample from "./code-sample";
 import SectionLabel from "./section-label";
 import {
@@ -246,12 +247,12 @@ export default function Home() {
 							CSS and JavaScript for the web.
 						</p>
 						<div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-3">
-							<a
-								href={DOCS}
+							<Link
+								href="/docs"
 								className="type-label flex h-12 items-center justify-center rounded-md bg-accent px-4 text-accent-fg shadow-[var(--shadow-accent)] transition hover:brightness-105 md:h-auto md:py-3"
 							>
 								Read the design docs
-							</a>
+							</Link>
 							<a
 								href={GOALS}
 								className="type-label flex h-12 items-center justify-center rounded-md border border-border px-4 text-fg transition-colors hover:bg-surface md:h-auto md:py-3"
@@ -339,9 +340,9 @@ export default function Home() {
 				<div className="mx-auto w-full max-w-[1440px] px-4 md:px-12">
 					<div className="flex items-center justify-between py-3.5 md:py-4.5">
 						<SectionLabel title="The design record" count={docCount} />
-						<a href={DOCS} className="type-micro text-muted transition-colors hover:text-fg">
-							On GitHub →
-						</a>
+						<Link href="/docs" className="type-micro text-muted transition-colors hover:text-fg">
+							Read the record →
+						</Link>
 					</div>
 					{designAreas.map((area) => (
 						<div

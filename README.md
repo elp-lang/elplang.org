@@ -37,7 +37,9 @@ whatever main happened to be at build time.
 rebuild means either connecting Cloudflare Workers Builds to this repo (and
 enabling recursive submodule checkout in it) or adding a GitHub Action.
 
-- The design docs listed on the page come from `app/site.ts`. It duplicates
-  the list in `vendor/elp/docs` by hand and has drifted once; deriving it
-  from the submodule is the fix.
+- **The docs are rendered at `/docs`**, from `vendor/elp/docs`, with
+  `app/site.ts` supplying each one's title, summary and grouping. Those two
+  lists are checked against each other at build time and a mismatch **fails
+  the build** — it caught `control-flow.md` missing on the first run, which
+  is the drift this note used to warn about.
 - `lastModified` in `app/sitemap.ts` is set by hand.

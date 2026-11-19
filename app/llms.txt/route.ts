@@ -5,7 +5,7 @@ export const dynamic = "force-static";
 // A plain-text map of the site for answer engines (llmstxt.org).
 export function GET() {
 	const docs = designAreas
-		.flatMap((a) => a.docs.map((d) => `- [${d.title}](${doc(d.file)}) (${a.area}): ${d.summary}`))
+		.flatMap((a) => a.docs.map((d) => `- [${d.title}](${SITE}${doc(d.file)}) (${a.area}): ${d.summary}`))
 		.join("\n");
 
 	const body = `# Elp
@@ -20,7 +20,8 @@ export function GET() {
 - [Home](${SITE}): what Elp is, its goals, status and design record.
 - [Repository](${REPO}): design docs and example programs.
 - [Goals](${GOALS}): why Elp exists.
-- [Design docs](${DOCS}): the only authority on the language today.
+- [Design record](${SITE}/docs): the only authority on the language today, rendered from the repository.
+- [Design docs on GitHub](${DOCS}): the same files, at their source.
 - [Sponsor](${SPONSOR}): New World Code Ltd, which sponsors Elp.
 
 ## Design record

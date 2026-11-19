@@ -1,12 +1,16 @@
 export const SITE = "https://elplang.org";
 export const REPO = "https://github.com/elp-lang/elp";
 export const DOCS = `${REPO}/tree/main/docs`;
+export const DOCS_PAGE = "/docs";
 export const GOALS = `${REPO}/blob/main/GOALS.md`;
 export const EXAMPLES = `${REPO}/tree/main/examples`;
 export const SPONSOR = "https://newworld.codes/open-source#elp";
 export const AUTHOR_URL = "https://newworld.codes/about";
 
-export const doc = (file: string) => `${REPO}/blob/main/docs/${file}.md`;
+// Rendered on this site from the `vendor/elp` submodule. The source of each
+// one is `docGithub`, linked from the page itself.
+export const doc = (file: string) => `/docs/${file}`;
+export const docGithub = (file: string) => `${REPO}/blob/main/docs/${file}.md`;
 
 /**
  * The design record in elp-lang/elp/docs, grouped for reading. These become
@@ -68,6 +72,12 @@ export const designAreas: {
 				file: "operators",
 				title: "Operators",
 				summary: "Operators as interface methods, precedence, and narrowing through && and ||.",
+			},
+			{
+				file: "control-flow",
+				title: "Control flow",
+				summary:
+					"Loops: while, break and continue, why there is no loop and no labels, and what a markup for's by key means.",
 			},
 			{
 				file: "error-handling",
