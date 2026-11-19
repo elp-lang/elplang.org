@@ -7,8 +7,9 @@
     "build": "next build",
     "start": "npx serve out",
     "lint": "eslint",
-    "deploy": "git submodule update --init --recursive && next build && wrangler deploy",
-    "docs:update": "git submodule update --remote vendor/elp && git add vendor/elp"
+    "deploy": "next build && wrangler deploy",
+    "docs:update": "git submodule update --remote vendor/elp && git add vendor/elp",
+    "prebuild": "node scripts/ensure-docs.mjs"
   },
   "dependencies": {
     "next": "16.0.6",
