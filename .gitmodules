@@ -1,0 +1,4 @@
+[submodule "vendor/elp"]
+	path = vendor/elp
+	url = https://github.com/elp-lang/elp.git
+	branch = main
