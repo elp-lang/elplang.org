@@ -13,29 +13,103 @@ import {
 	docCount,
 } from "./site";
 
-const helloWorld = `
-import { println } from "elp/stdio"
+// Both samples are trimmed from the example corpus in elp-lang/elp, so the
+// spelling tracks the current design rather than an older draft of it.
+const money = `
+import { Ordering } from elp.types
 
-fn main {
-    println("hello world")
+// Integer minor units. Floating-point currency is a bug waiting to happen.
+export object Money {
+	const cents int,
+}
+
+// Conformance is explicit and nominal. \`Copy\` is field-wise, so \`Money\` is
+// implicitly copyable exactly because \`int\` is.
+Money implements Copy + Add + Comparable
+
+// A method belongs to the package that owns its receiver, and \`Self\` names
+// the receiver's type. There are no constructors, only functions returning one.
+export fn Money.zero() -> Self {
+	return Self { cents = 0 }
+}
+
+// \`a + b\` on a Money is this method. Operators are interface methods, so a
+// user type earns \`+\` by declaring a conformance, never by special case.
+export fn Money.add(&self, other &Self) -> Self {
+	return Self { cents = self.cents + other.cents }
+}
+
+// \`<\`, \`<=\`, \`>\` and \`>=\` all route through this one three-valued method,
+// so a Money where \`a < b\` and \`b >= a\` disagree cannot be written.
+export fn Money.compareTo(&self, other &Self) -> Ordering {
+	return self.cents.compareTo(other.cents)
+}
+
+// \`nil\` is the only absent value and \`Optional<T>\` is the only thing that
+// holds one, so there is no null to dereference. Narrowing does the rest:
+// past the \`||\`, \`biggest\` is a Money.
+export pure fn largest(amounts [Money]) -> Optional<Money> {
+	var biggest Optional<Money> = nil
+
+	for amount in amounts {
+		if biggest == nil || amount > biggest {
+			biggest = amount
+		}
+	}
+
+	return biggest
 }
 `;
 
-const helloApp = `
-import { App, Window } from "elp/app"
-import { Column, Row, Text } from "elp/app/components"
+const basket = `
+import { Column, Row, Spacer } from elp.layout
+import { Text, Button } from elp.components
+import { Money, Item } from .types.item
 
-@App
-export fn HelloWorld -> App {
-    App {
-        Window {
-            Column {
-                Row {
-                    Text("Hello World")
-                }
-            }
-        }
-    }
+// A component body runs once, not on every change. Reads subscribe and
+// writes patch, so there is no re-render, no dependency array and no memo.
+export component Basket(items [Item]) {
+	export *fn onRemove(item Item)
+
+	var expanded = false
+
+	// A derived value is an ordinary function. Reading \`total()\` inside the
+	// markup is what subscribes this component to \`items\`.
+	fn total() -> Money {
+		var sum = Money.zero()
+
+		for item in items {
+			sum = sum + item.price
+		}
+
+		return sum
+	}
+
+	return Column {
+		Row {
+			Text("Basket", variant = .Heading2)
+			Spacer()
+			Text(total().toString())
+		}
+
+		if expanded {
+			// Identity is mandatory on a markup \`for\`, unlike React's optional
+			// \`key\`, so a list that silently loses row state cannot be written.
+			for item in items by item.id {
+				Row {
+					Text(item.name)
+					Spacer()
+					Button(onPress = fn { onRemove(item) }) {
+						Text("Remove")
+					}
+				}
+			}
+		}
+
+		Button(onPress = fn { expanded = !expanded }) {
+			Text(if expanded { "Hide items" } else { "Show items" })
+		}
+	}
 }
 `;
 
@@ -207,13 +281,17 @@ export default function Home() {
 						</a>
 					</div>
 					<div className="grid gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
-						<CodeSample title="Hello world, on the command line" code={helloWorld} />
-						<CodeSample title="Hello world, as an app" code={helloApp} />
+						<CodeSample title="A value type, and the operators it earns" code={money} />
+						<CodeSample title="A component, and what makes it update" code={basket} lang=".velp" />
 					</div>
 					<p className="type-body mt-5 max-w-[760px] leading-[1.7] text-muted">
-						The syntax is still being designed, so these will change. The app
-						version describes its UI as nested components; the compiler turns it
-						into a native app for each platform you target.
+						Both are trimmed from the{" "}
+						<a href={EXAMPLES} className="inline-link">
+							example corpus
+						</a>
+						, which is where the design is tested. The syntax is still being
+						designed, so these will change — the corpus is migrated onto each
+						decision as it lands, and the samples here follow it.
 					</p>
 				</div>
 			</section>

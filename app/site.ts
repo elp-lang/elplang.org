@@ -134,6 +134,11 @@ export const designAreas: {
 				title: "Grammar notes",
 				summary: "Intentional gaps, use-site rules and open questions in the grammar.",
 			},
+			{
+				file: "open-questions",
+				title: "Open questions",
+				summary: "One register of every live question, naming the doc that owns it, so nothing is asked in four places at once.",
+			},
 		],
 	},
 ];
