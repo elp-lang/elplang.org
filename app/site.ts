@@ -145,6 +145,12 @@ export const designAreas: {
 				summary: "Intentional gaps, use-site rules and open questions in the grammar.",
 			},
 			{
+				file: "tradeoffs",
+				title: "Trade-offs",
+				summary:
+					"Where several decisions solve one problem, which decisions cost another program, and the check that would have caught every defect.",
+			},
+			{
 				file: "open-questions",
 				title: "Open questions",
 				summary: "One register of every live question, naming the doc that owns it, so nothing is asked in four places at once.",
