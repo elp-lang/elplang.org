@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { docSlugs, getDoc } from "../docs";
+import { docSlugs, formatUpdated, getDoc } from "../docs";
 import Markdown from "../markdown";
 import { REPO, SITE } from "../../site";
 
@@ -43,6 +43,11 @@ export default async function DocPage({ params }: { params: Promise<{ slug: stri
 						← The design record
 					</Link>
 					<span className="type-micro-sm text-slate">{doc.area}</span>
+					{doc.updated && (
+						<time dateTime={doc.updated} className="type-micro-sm text-slate">
+							Updated {formatUpdated(doc.updated)}
+						</time>
+					)}
 				</div>
 
 				<h1 className="type-display-md text-fg">{doc.title}</h1>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { docsByArea } from "./docs";
+import { docsByArea, formatUpdated, recordUpdated } from "./docs";
 import SectionLabel from "../section-label";
 import { DOCS, SITE } from "../site";
 
@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 export default function DocsIndex() {
 	const areas = docsByArea();
 	const count = areas.reduce((n, a) => n + a.docs.length, 0);
+	const updated = recordUpdated();
 
 	return (
 		<main className="mx-auto w-full max-w-[1440px] px-4 md:px-12">
@@ -37,6 +38,12 @@ export default function DocsIndex() {
 					</a>{" "}
 					at a pinned revision, so this is what was committed rather than a copy of it.
 				</p>
+				{updated && (
+					<p className="type-micro text-slate">
+						Last change to the record{" "}
+						<time dateTime={updated}>{formatUpdated(updated)}</time>
+					</p>
+				)}
 			</section>
 
 			{areas.map((area) => (
@@ -55,6 +62,11 @@ export default function DocsIndex() {
 									{doc.title}
 								</Link>
 								<p className="type-body leading-[1.6] text-muted">{doc.summary}</p>
+								{doc.updated && (
+									<time dateTime={doc.updated} className="type-micro-sm text-slate">
+										Updated {formatUpdated(doc.updated)}
+									</time>
+								)}
 							</li>
 						))}
 					</ul>
